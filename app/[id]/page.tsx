@@ -44,8 +44,6 @@ export default function CodeDisplay({
 
   useEffect(() => {
     const id = unwrappedParams?.id;
-    console.log("id", id);
-
     if (!id) {
       router.push("/new");
       return;
@@ -59,7 +57,7 @@ export default function CodeDisplay({
         router.push("/new");
       }
     }
-  }, [unwrappedParams, code]);
+  }, [unwrappedParams, code, router]);
 
   if (isEditing) {
     return (
@@ -80,8 +78,11 @@ export default function CodeDisplay({
     <div>
       <Subbar onEdit={editHandler} onCopyLink={copyHandler} />
       <Highlight code={code} language="html" theme={themes.okaidia}>
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre className="text-lg" style={{ fontSize: "18px", lineHeight: "1.6" }}>
+        {({ className, tokens, getLineProps, getTokenProps }) => (
+          <pre
+            className={className + "text-lg"}
+            style={{fontSize: "18px", lineHeight: "1.6" }}
+          >
             {tokens.map((line, i) => (
               <div key={i} {...getLineProps({ line })}>
                 <span>{i + 1} </span>
