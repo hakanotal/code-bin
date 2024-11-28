@@ -1,6 +1,7 @@
 {
   "name": "code-bin",
   "version": "0.1.0",
+  "homepage": "https://hakanotal.github.io/code-bin",
   "private": true,
   "scripts": {
     "dev": "next dev",

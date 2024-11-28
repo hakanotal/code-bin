@@ -1,6 +1,9 @@
+"use strict";
+
 interface MemoryStore {
     [key: string]: {
       code: string;
+      language?: string;
       timestamp: number;
     };
   }
@@ -8,12 +11,13 @@ interface MemoryStore {
   const memoryStore: MemoryStore = {};
   
   export const saveCode = (id: string, code: string): void => {
-    memoryStore[id] = { code, timestamp: Date.now() };
+    memoryStore[id] = { code, language: "html", timestamp: Date.now() };
   };
   
   export const getCode = (id: string): string | null => {
 
     if(id === 'test') return '<html><body>TEST CODE</body></html>';
+    console.log('id', id, memoryStore[id]);
 
     return memoryStore[id] && (Date.now() - memoryStore[id].timestamp < 6 * 60 * 60 * 1000)
       ? memoryStore[id].code
@@ -21,5 +25,6 @@ interface MemoryStore {
   };
   
   export const generateUniqueId = (): string => {
-    return Math.random().toString(36).substring(2, 8);
+    const ids = ["23808", "23809", "23810", "23811", "23812", "23813", "23814", "23815", "23816", "23817", "23818", "23819", "23820", "23821", "23822", "23823", "23824", "23825", "23826", "23827", "23828", "23829", "23830", "23831", "23832", "23833", "23834", "23835", "23836", "23837", "23838", "23839", "23840", "23841", "23842", "23843", "23844", "23845", "23846", "23847", "23848", "23849", "23850", "23851", "23852", "23853", "23854", "23855", "23856", "23857", "23858", "23859", "23860", "23861", "23862", "23863", "23864", "23865", "23866", "23867", "23868", "23869", "23870", "23871", "23872", "23873", "23874", "23875", "23876", "23877", "23878", "23879", "23880", "23881", "23882", "23883", "23884", "23885", "23886", "23887", "23888", "23889", "23890", "23891", "23892", "23893", "23894", "23895", "23896", "23897", "23898", "23899", "23900", "23901", "23902", "23903", "23904", "23905", "23906", "23907", "23908", "23909", "23910", "23911", "23912", "23913", "23914", "23915", "23916", "23917", "23918", "23919", "23920", "23921", "23922", "23923", "23924", "23925", "23926", "23927", "23928", "23929", "23930", "23931", "23932", "23933"]
+    return ids[Math.floor(Math.random() * ids.length)];
   };

@@ -1,99 +1,150 @@
-"use client";
-
-import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { getCode, saveCode, generateUniqueId } from "../../utils/codeStorage";
-import { Highlight, themes } from "prism-react-renderer";
 import React from "react";
-import Subbar from "@/components/Subbar";
+import ClientComponent from "./ClientComponent";
 
-const CodeMirror = dynamic(() => import("@uiw/react-codemirror"), {
-  ssr: false,
-});
+export const generateStaticParams = async () => {
+  // Replace this with the actual data source you use to get the IDs
+  const ids = [
+    "23808",
+    "23809",
+    "23810",
+    "23811",
+    "23812",
+    "23813",
+    "23814",
+    "23815",
+    "23816",
+    "23817",
+    "23818",
+    "23819",
+    "23820",
+    "23821",
+    "23822",
+    "23823",
+    "23824",
+    "23825",
+    "23826",
+    "23827",
+    "23828",
+    "23829",
+    "23830",
+    "23831",
+    "23832",
+    "23833",
+    "23834",
+    "23835",
+    "23836",
+    "23837",
+    "23838",
+    "23839",
+    "23840",
+    "23841",
+    "23842",
+    "23843",
+    "23844",
+    "23845",
+    "23846",
+    "23847",
+    "23848",
+    "23849",
+    "23850",
+    "23851",
+    "23852",
+    "23853",
+    "23854",
+    "23855",
+    "23856",
+    "23857",
+    "23858",
+    "23859",
+    "23860",
+    "23861",
+    "23862",
+    "23863",
+    "23864",
+    "23865",
+    "23866",
+    "23867",
+    "23868",
+    "23869",
+    "23870",
+    "23871",
+    "23872",
+    "23873",
+    "23874",
+    "23875",
+    "23876",
+    "23877",
+    "23878",
+    "23879",
+    "23880",
+    "23881",
+    "23882",
+    "23883",
+    "23884",
+    "23885",
+    "23886",
+    "23887",
+    "23888",
+    "23889",
+    "23890",
+    "23891",
+    "23892",
+    "23893",
+    "23894",
+    "23895",
+    "23896",
+    "23897",
+    "23898",
+    "23899",
+    "23900",
+    "23901",
+    "23902",
+    "23903",
+    "23904",
+    "23905",
+    "23906",
+    "23907",
+    "23908",
+    "23909",
+    "23910",
+    "23911",
+    "23912",
+    "23913",
+    "23914",
+    "23915",
+    "23916",
+    "23917",
+    "23918",
+    "23919",
+    "23920",
+    "23921",
+    "23922",
+    "23923",
+    "23924",
+    "23925",
+    "23926",
+    "23927",
+    "23928",
+    "23929",
+    "23930",
+    "23931",
+    "23932",
+    "23933",
+  ];
+
+  return ids.map((id) => ({
+    id,
+  }));
+};
 
 export default function CodeDisplay({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const router = useRouter();
-  const [code, setCode] = useState<string>("");
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const unwrappedParams = React.use(params);
-
-  const editHandler = (): void => setIsEditing(true);
-
-  const saveHandler = (): void => {
-    const id = generateUniqueId();
-    saveCode(id, code);
-    router.push(`/${id}`);
-  };
-
-  const copyHandler = () => {
-    const currentURL = window.location.href; // Get the current URL
-    navigator.clipboard
-      .writeText(currentURL)
-      .then(() => {
-        alert("Link copied to clipboard!");
-      })
-      .catch((err) => {
-        console.error("Failed to copy link: ", err);
-      });
-  };
-
-  useEffect(() => {
-    const id = unwrappedParams?.id;
-    if (!id) {
-      router.push("/new");
-      return;
-    }
-
-    if (!code) {
-      const storedCode = getCode(id);
-      if (storedCode) {
-        setCode(storedCode);
-      } else {
-        router.push("/new");
-      }
-    }
-  }, [unwrappedParams, code, router]);
-
-  if (isEditing) {
-    return (
-      <div>
-        <Subbar onSave={saveHandler} onCopyLink={copyHandler} />
-        <CodeMirror
-          theme="dark"
-          value={code}
-          onChange={(value) => setCode(value)}
-          className="text-lg" // Adjust font size
-          style={{ fontSize: "18px", lineHeight: "1.6" }}
-        />
-      </div>
-    );
-  }
-
   return (
     <div>
-      <Subbar onEdit={editHandler} onCopyLink={copyHandler} />
-      <Highlight code={code} language="html" theme={themes.okaidia}>
-        {({ className, tokens, getLineProps, getTokenProps }) => (
-          <pre
-            className={className + "text-lg"}
-            style={{fontSize: "18px", lineHeight: "1.6" }}
-          >
-            {tokens.map((line, i) => (
-              <div key={i} {...getLineProps({ line })}>
-                <span>{i + 1} </span>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token })} />
-                ))}
-              </div>
-            ))}
-          </pre>
-        )}
-      </Highlight>
+      <ClientComponent params={params} />
     </div>
   );
 }
